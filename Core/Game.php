@@ -77,7 +77,7 @@ class Game
             $winner = $this->checkWinner($step);
 
             if ($winner !== false) {
-                print_r("Winner - " . $winner[0]);
+                print_r("" . $winner[0]);
 
                 return true;
             }
