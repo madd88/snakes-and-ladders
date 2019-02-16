@@ -66,7 +66,7 @@ class Game
     {
 
         foreach ($players as $player) {
-
+            sleep(1);
             $dice = $this->rollDice();
             $newPosition = $this->getPosition($dice, $step[$player]);
             $step[$player] = $newPosition['position'];
