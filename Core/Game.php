@@ -13,7 +13,6 @@
 
 namespace Core\Game;
 
-
 class Game
 {
 
@@ -22,6 +21,14 @@ class Game
      */
 
     private $size = 100;
+
+    /**
+     * Game constructor.
+     *
+     * Sets first position for all players
+     *
+     * @param $players
+     */
 
     public function __construct($players)
     {
@@ -40,9 +47,9 @@ class Game
      * @return int - random int from 1 to 6
      */
 
-    public function rollDice()
+    public function rollDice() : int
     {
-        return rand(1,6);
+        return rand(1, 6);
     }
 
     /**
@@ -55,21 +62,23 @@ class Game
      * @return bool
      */
 
-    public function start($players, $step = []){
+    public function start(array $players, array $step = [])
+    {
 
         foreach ($players as $player) {
 
             $dice = $this->rollDice();
-            $newPosition = $this->getPosition($dice,$step[$player]);
+            $newPosition = $this->getPosition($dice, $step[$player]);
             $step[$player] = $newPosition['position'];
-            $positionOut = implode("" ,$newPosition);
+            $positionOut = implode("", $newPosition);
 
             $this->output($player, $dice, $positionOut);
 
             $winner = $this->checkWinner($step);
 
-            if ($winner !== false){
-                print_r("Winner - " . $winner[0]);
+            if ($winner !== false) {
+                print_r("" . $winner[0]);
+
                 return true;
             }
         }
@@ -87,19 +96,17 @@ class Game
      * @return array
      */
 
-    public function getPosition($dice, $position){
+    public function getPosition(int $dice, int $position) : array
+    {
 
         $newPosition = $dice + $position;
-        if($newPosition  > $this->size){
+        if ($newPosition > $this->size) {
             $result = ["sl" => "", "position" => $position];
-        }
-        elseif ($newPosition == 25 || $newPosition == 55){
+        } elseif ($newPosition == 25 || $newPosition == 55) {
             $result = ["sl" => "ladder", "position" => ($newPosition + 10)];
-        }
-        elseif ($newPosition % 9 === 0){
+        } elseif ($newPosition % 9 === 0) {
             $result = ["sl" => "snake", "position" => ($newPosition - 3)];
-        }
-        else{
+        } else {
             $result = ["sl" => "", "position" => $newPosition];
         }
 
@@ -115,11 +122,12 @@ class Game
      * @return array|bool
      */
 
-    public function checkWinner($step){
+    public function checkWinner(array $step)
+    {
 
         $result = false;
 
-        if(count($step) > 0){
+        if (count($step) > 0) {
             foreach ($step as $name => $position) {
                 if ($position === 100) return [$name, $position];
             }
@@ -137,8 +145,9 @@ class Game
      * @param $position
      */
 
-    public function output($player, $dice, $position){
-        echo($player . $dice . "-" . $position . "\n");
+    public function output($player, $dice, $position)
+    {
+        echo($dice . $player .  "-" . $position . "\n");
     }
 
 }
