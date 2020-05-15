@@ -11,7 +11,7 @@
  *
  */
 
-namespace Core\Game;
+namespace Core;
 
 class Game
 {
@@ -66,7 +66,7 @@ class Game
     {
 
         foreach ($players as $player) {
-            sleep(1);
+            usleep(10000);
             $dice = $this->rollDice();
             $newPosition = $this->getPosition($dice, $step[$player]);
             $step[$player] = $newPosition['position'];
@@ -101,13 +101,13 @@ class Game
 
         $newPosition = $dice + $position;
         if ($newPosition > $this->size) {
-            $result = ["sl" => "", "position" => $position];
+            $result = ["sl" => " ", "position" => $position];
         } elseif ($newPosition == 25 || $newPosition == 55) {
-            $result = ["sl" => "ladder", "position" => ($newPosition + 10)];
+            $result = ["sl" => " ladder ", "position" => ($newPosition + 10)];
         } elseif ($newPosition % 9 === 0) {
-            $result = ["sl" => "snake", "position" => ($newPosition - 3)];
+            $result = ["sl" => " snake ", "position" => ($newPosition - 3)];
         } else {
-            $result = ["sl" => "", "position" => $newPosition];
+            $result = ["sl" => " ", "position" => $newPosition];
         }
 
         return $result;
@@ -147,7 +147,7 @@ class Game
 
     public function output($player, $dice, $position)
     {
-        echo($dice . $player .  "-" . $position . "\n");
+        echo('dice - ' . $dice . ", " . $player .  ", newpos - " . $position . "\n");
     }
 
 }
